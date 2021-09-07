@@ -50,10 +50,27 @@ def to_uniform_commands(uniforms):
 def create_uniforms(seed):
     random.seed(a=seed, version=2)
 
+    u_q_fbm_displace_1 = (random.uniform(0, 20), random.uniform(0, 20))
+    u_q_fbm_displace_2 = (random.uniform(0, 20), random.uniform(0, 20))
+    u_r_fbm_displace_1 = (random.uniform(0, 20), random.uniform(0, 20))
+    u_r_fbm_displace_2 = (random.uniform(0, 20), random.uniform(0, 20))
+    
+    # This gives a chance for beautiful symmetries
+    symmetry = random.random()
+    if symmetry < 0.1:
+        u_q_fbm_displace_2 = u_q_fbm_displace_1
+        u_r_fbm_displace_1 = u_q_fbm_displace_1
+        u_r_fbm_displace_2 = u_q_fbm_displace_1
+    elif symmetry < 0.2:
+        u_q_fbm_displace_2 = u_q_fbm_displace_1
+        u_r_fbm_displace_2 = u_r_fbm_displace_1
+    elif symmetry < 0.3:
+        u_r_fbm_displace_1 = u_q_fbm_displace_1
+        u_r_fbm_displace_2 = u_q_fbm_displace_2
 
     return {
         'u_numOctaves' : random.uniform(8, 16),
-        'u_zoom' : random.uniform(1.0, 2.5) if random.random() else random.uniform(0.2, 1.5),
+        'u_zoom' : random.uniform(0.4, 1.6),
         'u_cc' : (random.uniform(10, 20), random.uniform(10, 20), random.uniform(10, 20)), 
         'u_dd': (random.random(), random.random(), random.random()), 
         'u_q_h': (random.uniform(0.7, 1.3), random.uniform(0.7, 1.3)), 
