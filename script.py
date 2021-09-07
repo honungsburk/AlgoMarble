@@ -25,7 +25,7 @@ def commandsToString(commands):
                 commands_s += part
                 is_first = False
             else:
-                commands_s +=  ', ' + part
+                commands_s +=  ',' + part
         commands_s += '\n'
     
     return commands_s
