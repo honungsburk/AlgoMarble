@@ -1,6 +1,6 @@
-# Brilliant Improbability (Shader NFTs on Cardano)
+# AlgoMarble (Shader NFTs on Cardano)
 
-'Brilliant Improbability' is a generative art project by Frank Hampus Weslien.
+'AlgoMarble' is a generative art project by Frank Hampus Weslien.
 You are free to download, modify, and share the code. But remember: if you want
 to use it create your own NFT:s make sure that you've modified it enough that it
 has become something new/novel.
@@ -16,7 +16,7 @@ program to run.
 
 The basic idea is to stack a bunch of noise on top of each other and then map that
 noise into pretty colors. If you want to know how I recommend checking out the code in the
-`brilliant-improbability.frag` shader.
+`AlgoMarble.frag` shader.
 
 Now, shaders are deterministic so noise has to be added from outside:
 hence there is a python script. It selects parameters for the shaders based on a seed
@@ -31,7 +31,7 @@ I want you to be able to recreate the NFTs in high resolution if you need to.
 
 ### Files
 
-#### 'brilliant-improbability.frag'
+#### 'AlgoMarble.frag'
 
 This is the shader that ultimately generates the art and is written in OpenGL.
 If you've never encountered OpenGl before the best way to think about it describes 
@@ -41,8 +41,7 @@ graphics cards and are really fast which is why I'm using it.
 #### 'input.csv'
 
 This file a list of commands (formatted as CSV because that is what glslViewer expects)
-that can be modified to easily recreate any of the artworks in the 'Brilliant 
-Improbability' collection.
+that can be modified to easily recreate any of the artworks in the 'AlgoMarble' collection.
 
 Each line in the file is a command to glslViewer. 
 The first series of command all sets input parameters to the shader (usually called uniforms)
@@ -50,8 +49,8 @@ then asks glslViewer to perform a screenCapture and save it as a PNG image and t
 
 #### 'script.py'
 
-A script that can recreate any number of artworks in the 'Brilliant 
-Improbability' collection. It was also used to create the original collection that
+A script that can recreate any number of artworks in the 'AlgoMarble' collection. 
+It was also used to create the original collection that
 was minted as NFTs in September of 2021.
 
 ## How to recreate
@@ -64,7 +63,7 @@ metadata into the `input.csv` file. Simply replace the values in the file
 with your values and then run:
 
 ```bash
-cat input.csv | glslViewer brilliant-improbability.frag -w 1200 -h 800 --headless
+cat input.csv | glslViewer AlgoMarble.frag -w 1200 -h 800 --headless
 ```
 
 It will generate a PNG image of 1200 by 800 pixels, you can easily modify the command

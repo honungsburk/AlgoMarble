@@ -88,7 +88,7 @@ def create_uniforms(seed):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='Generate PNG images from the Brilliant Improbability NFT Series.')
+    parser = argparse.ArgumentParser(description='Generate PNG images from the AlgoMarble NFT Series.')
     parser.add_argument('--width', metavar='PIXELS', type=int, default=1200,
                         help='the width of the image in pixels')
     parser.add_argument('--height', metavar='PIXELS', type=int, default=800,
@@ -101,7 +101,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    shaderPath = 'brilliant-improbability.frag'
+    shaderPath = 'AlgoMarble.frag'
 
     glslCommand = ' '.join(['glslViewer', shaderPath, '--headless', '-w', str(args.width), '-h', str(args.height)])
 
