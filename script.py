@@ -5,6 +5,15 @@ import random
 import os
 import json
 
+def make_glslViewer(width, height):
+    shaderPath = 'AlgoMarble.frag'
+    glslCommand = ' '.join(['glslViewer', shaderPath, '--headless', '-w', str(width), '-h', str(height)])
+    return subprocess.Popen(  glslCommand
+                            , stdin=subprocess.PIPE
+                            , stdout=subprocess.PIPE
+                            , encoding='utf8'
+                            , shell=True)
+
 # glslVeiwer command to take a screenshot
 # This command is used to create images
 def screenshotCommand(name):
@@ -86,6 +95,27 @@ def create_uniforms(seed):
         'u_color_speed': random.uniform(0.5, 1.0),
     }
 
+def generate_range(start, end, width, height, name_tag):
+    for seed in range(start, end):
+        glslViewer = make_glslViewer(width, height)
+        print(seed)
+        uniforms = create_uniforms(seed)
+        
+        path = str(seed) + name_tag
+
+        # Create commands to send to glslViewer
+        uniform_commands = to_uniform_commands(uniforms)
+        uniform_commands.append(screenshotCommand(path))
+        uniform_commands.append(exitCommand())
+        commands_as_string = commandsToString(uniform_commands)
+        print(commands_as_string)
+        # Will block until all images has been rendered
+        glslViewer.communicate(commands_as_string)
+
+        with open(path + ".json", "w") as json_file:
+            json.dump(uniforms, json_file, indent = 4)  
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Generate PNG images from the AlgoMarble NFT Series.')
@@ -98,38 +128,14 @@ if __name__ == "__main__":
     parser.add_argument('--end', metavar='INT', type=int, default=512,
                         help='ending seed when generating images (non-inclusive)')
 
-
     args = parser.parse_args()
 
-    shaderPath = 'AlgoMarble.frag'
-
-    glslCommand = ' '.join(['glslViewer', shaderPath, '--headless', '-w', str(args.width), '-h', str(args.height)])
-
-    print('Running command:')
-    print(glslCommand)
+    generate_range(args.start, args.end, args.width, args.height, "")
 
 
-    for seed in range(args.start, args.end):
-        glslViewer = subprocess.Popen( glslCommand
-                                    , stdin=subprocess.PIPE
-                                    , stdout=subprocess.PIPE
-                                    , encoding='utf8'
-                                    , shell=True)
-        print(seed)
-        uniforms = create_uniforms(seed)
-        
-        path = str(seed)
 
-        # Create commands to send to glslViewer
-        uniform_commands = to_uniform_commands(uniforms)
-        uniform_commands.append(screenshotCommand(path))
-        uniform_commands.append(exitCommand())
-        commands_as_string = commandsToString(uniform_commands)
-        print(commands_as_string)
-        # Will block until all images has been rendered
-        glslViewer.communicate(commands_as_string)
 
-        with open(path + ".json", "w") as json_file:
-            json.dump(uniforms, json_file, indent = 4) 
+
+
 
     
