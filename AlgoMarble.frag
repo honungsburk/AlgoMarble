@@ -16,9 +16,6 @@ uniform float u_zoom;
 uniform vec3 u_cc;
 uniform vec3 u_dd;
 
-// Motion
-//uniform float u_time;
-
 // Noise Params
 uniform vec2 u_q_h;
 uniform vec2 u_r_h;
@@ -119,6 +116,7 @@ float superSmooth(float a0, float a1, float w){
     return (a1 - a0) * ((w * (w * 6.0 - 15.0) + 10.0) * w * w * w) + a0;
 }
 
+// This is basically perlin noise
 float gradient_noise( in vec2 x )
 {
     vec2 i = floor( x );
@@ -180,7 +178,10 @@ float gradient_noise( in vec2 x )
     return abs(res)/ (sqrt(2.0)/2.0);
 }
 
-
+// Fractional Brownian Motion
+// By stacking perlin/gradient noise on top of each other
+// with samller and smaller wavelength and lower amplitude you get fantastic
+// textures.
 float fbm( in vec2 x, in float H )
 {    
     float G = exp2(-H);
@@ -196,9 +197,11 @@ float fbm( in vec2 x, in float H )
     return t;
 }
 
+// Again, by stacking the fbm on top of each other we get more intersting details.
 float pattern( in vec2 p, out vec2 q, out vec2 r )
 {
-
+	
+    // We add vectors provided by the CPU so as to make each image more unique
     q.x = fbm( p + u_q_fbm_displace_1, u_q_h.x );
     q.y = fbm( p + u_q_fbm_displace_2, u_q_h.y );
 
