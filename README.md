@@ -5,6 +5,11 @@ You are free to download, modify, and share the code. But remember: if you want
 to use it create your own NFT:s make sure that you've modified it enough that it
 has become something new/novel.
 
+## Links
+
+* [Youtube Video](https://www.youtube.com/watch?v=q1AVe5wOdR4&t=6s)
+* [AlgoMarble Collection](https://www.frankhampusweslien.com/art?group=AlgoMarble&search=&forSale=False&pageSize=24&page=0)
+
 ## Dependencies
 
 It uses python 3 (no libraries) and glslViewer. They need to be installed for the
@@ -82,4 +87,14 @@ If you need any help you can use the `-h` command:
 
 ```bash
 python3 script.py -h
+```
+
+
+## Animations
+
+If you want to recreate the animations from the [youtube video](https://www.youtube.com/watch?v=q1AVe5wOdR4&t=6s)
+use the following command:
+
+```bash
+cat input-youtube.csv | glslViewer AlgoMarbleYoutube.frag -w 1200 -h 800
 ```
